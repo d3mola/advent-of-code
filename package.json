@@ -1,0 +1,17 @@
+{
+  "devDependencies": {
+    "@types/node": "^18.11.10",
+    "esbuild": "^0.15.16",
+    "esbuild-register": "^3.4.1"
+  },
+  "name": "advent-of-code",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node -r esbuild-register"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
