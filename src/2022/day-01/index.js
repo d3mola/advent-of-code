@@ -1,7 +1,7 @@
 const fs = require('fs')
 
 // const INPUT_FILE_PATH = '../smol-input.txt'
-const INPUT_FILE_PATH = '../input.txt'
+const INPUT_FILE_PATH = 'input.txt'
 
 function top3ElvesCalories(elvesCalories) {
     return maxCalories(elvesCalories, 3)
