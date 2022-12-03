@@ -1,6 +1,7 @@
 import fs from 'fs'
 
 const inputFile = 'input.txt'
+// const inputFile = 'smol.txt'
 
 const Rock = 'Rock'
 const Paper = 'Paper'
@@ -35,15 +36,43 @@ const Me = {
     Y: Paper,
     Z: Scissors,
 }
+const TargetResult = {
+    Lose: 'X',
+    Draw: 'Y',
+    Win: 'Z',
+}
 
-function part1() {
+// Rock     > Scissors
+// Paper    > Rock
+// Scissors > Paper
+
+function determineMyShape(opponentShape, targetResult) {
+    if (targetResult === TargetResult.Draw) return opponentShape
+
+    if (targetResult === TargetResult.Lose) {
+        if (opponentShape === Shape.Rock) return Shape.Scissors
+        if (opponentShape === Shape.Paper) return Shape.Rock
+        return Shape.Paper
+    }
+
+    if (targetResult === TargetResult.Win) {
+        if (opponentShape === Shape.Rock) return Shape.Paper
+        if (opponentShape === Shape.Paper) return Shape.Scissors
+        return Shape.Rock
+    }
+}
+
+function main() {
     let strategy = getInput(inputFile).split('\n')
         .map(line => line.split(' '))
-        .map(round => {
-            return [Opponent[round[0]],  Me[round[1]]]
-        })
-    
-    let myRoundScores = strategy.map(round => {
+
+    let scores = strategy.map(round => {
+        let [opponent, targetResult] = round
+        let myShape = determineMyShape(Opponent[opponent], targetResult)
+        return [Opponent[opponent],  myShape]
+    })
+
+    let myRoundScores = scores.map(round => {
             let [opponent, me] = round
             let roundScore = shapeScore(me) + roundOutcomeScore(round)
             return roundScore
@@ -56,7 +85,6 @@ function part1() {
 function shapeScore(shape) {
     return ShapeScore[shape]
 }
-
 
 // Lose | Draw | Win
 function roundOutcomeScore(round) {
@@ -89,10 +117,6 @@ function determineRoundWinner(player1, player2) {
     }
 }
 
-function part2(params) {
-    
-}
-
 function getInput(file) {
     try {
         return fs.readFileSync(file, 'utf-8')
@@ -101,4 +125,4 @@ function getInput(file) {
     }
 }
 
-part1()
+main()
