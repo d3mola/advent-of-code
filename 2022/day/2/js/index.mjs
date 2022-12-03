@@ -3,38 +3,15 @@ import fs from 'fs'
 const inputFile = 'input.txt'
 // const inputFile = 'smol.txt'
 
-const Rock = 'Rock'
-const Paper = 'Paper'
-const Scissors = 'Scissors'
 let Shape = {
     Rock: 'Rock',
     Paper: 'Paper',
     Scissors: 'Scissors',
 }
-let Winner = {
-    Player1: 'player1',
-    Player2: 'player2',
-    None: 'none',
-}
-const RoundOutcomeScore = {
-    Lose: 0,
-    Draw: 3,
-    Win: 6,
-}
-const ShapeScore = {
-    Rock: 1,
-    Paper: 2,
-    Scissors: 3,
-}
-const Opponent = {
-    A: Rock,
-    B: Paper,
-    C: Scissors,
-}
-const Me = {
-    X: Rock,
-    Y: Paper,
-    Z: Scissors,
+const OpponentsShape = {
+    A: Shape.Rock,
+    B: Shape.Paper,
+    C: Shape.Scissors,
 }
 const TargetResult = {
     Lose: 'X',
@@ -68,8 +45,8 @@ function main() {
 
     let scores = strategy.map(round => {
         let [opponent, targetResult] = round
-        let myShape = determineMyShape(Opponent[opponent], targetResult)
-        return [Opponent[opponent],  myShape]
+        let myShape = determineMyShape(OpponentsShape[opponent], targetResult)
+        return [OpponentsShape[opponent],  myShape]
     })
 
     let myRoundScores = scores.map(round => {
@@ -83,6 +60,11 @@ function main() {
 }
 
 function shapeScore(shape) {
+    const ShapeScore = {
+        Rock: 1,
+        Paper: 2,
+        Scissors: 3,
+    }
     return ShapeScore[shape]
 }
 
@@ -90,6 +72,16 @@ function shapeScore(shape) {
 function roundOutcomeScore(round) {
     let [opponent, me] = round
     let winner = determineRoundWinner(opponent, me)
+    let Winner = {
+        Player1: 'player1',
+        Player2: 'player2',
+        None: 'none',
+    }
+    let RoundOutcomeScore = {
+        Lose: 0,
+        Draw: 3,
+        Win: 6,
+    }
 
     if (winner === Winner.Player1) return RoundOutcomeScore.Lose
     if (winner === Winner.Player2) return RoundOutcomeScore.Win
