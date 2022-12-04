@@ -2,12 +2,19 @@ const fs = require('fs')
 
 // const INPUT_FILE_PATH = '../smol-input.txt'
 const INPUT_FILE_PATH = 'input.txt'
+let elvesCalories = inputToArray(readInput())
+
+function part1 () {
+    maxCalories(elvesCalories)
+}
+
+function part2 () {
+    top3ElvesCalories(elvesCalories)
+}
 
 function top3ElvesCalories(elvesCalories) {
     return maxCalories(elvesCalories, 3)
 }
-
-let elvesCalories = inputToArray(readInput())
 
 function maxCalories(elvesCalories: number[][], numElves = 1) {
     let descendingCalories: number[] = []
