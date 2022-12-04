@@ -7,11 +7,7 @@
   "name": "advent-of-code",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node -r esbuild-register"
-  },
-  "author": "",
+  "author": "Ademola Ariya",
   "license": "ISC",
-  "description": ""
+  "description": "Advent of Code Puzzles"
 }

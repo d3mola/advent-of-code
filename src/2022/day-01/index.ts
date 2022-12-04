@@ -9,9 +9,8 @@ function top3ElvesCalories(elvesCalories) {
 
 let elvesCalories = inputToArray(readInput())
 
-function maxCalories(elvesCalories, numElves = 1) {
-    let total = 0
-    let descendingCalories = []
+function maxCalories(elvesCalories: number[][], numElves = 1) {
+    let descendingCalories: number[] = []
 
     for (let elfCalories of elvesCalories) {
         let totalElfCalories = calcTotalElfCalories(elfCalories)
@@ -22,29 +21,25 @@ function maxCalories(elvesCalories, numElves = 1) {
     return calcTotalElfCalories(descendingCalories.slice(0, numElves))
 }
 
-console.log(`Elf carrying highest calories has ${maxCalories(elvesCalories)} calories`)
-console.log(`The top 3 elves are carrying ${top3ElvesCalories(elvesCalories)} calories`)
+console.log(`Elf carrying highest calories has ${maxCalories(elvesCalories)} calories`) // 66719
+console.log(`The top 3 elves are carrying ${top3ElvesCalories(elvesCalories)} calories`) // 198551
 
-function calcTotalElfCalories(calories) {
+function calcTotalElfCalories(calories: number[]): number {
     return calories.reduce((prev, current) => prev + current, 0)
 }
 
-function inputToArray(inputStr) {
-    let inputArr = inputStr.split('\n\n')
-
-    for (let i = 0; i < inputArr.length; i++) {
-        let arr = inputArr[i].split('\n').map(str => Number(str))
-        inputArr[i] = arr
-    }
-
-    return inputArr
+function inputToArray(inputStr: string): number[][] {    
+    return inputStr
+        .split('\n\n')
+        .map(line => line.split('\n').map(Number))
 }
 
-function readInput() {
+function readInput(): string {
     try {
         const input = fs.readFileSync(INPUT_FILE_PATH, 'utf-8')
         return input
     } catch (err) {
         console.error(err)
+        throw new Error(err);
     }
 }
