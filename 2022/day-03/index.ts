@@ -41,7 +41,7 @@ function part2() {
 
     let duplicates: string[] = []
     for (let elfIndex = 0; elfIndex < elves.length; elfIndex += 3) {
-        let sortedElves = elves.slice(elfIndex, elfIndex+3).sort((a, b) => b.length - a.length)
+        let sortedElves = elves.slice(elfIndex, elfIndex+3)
         let cache1 = strToMap(sortedElves[0])
         let cache2 = strToMap(sortedElves[1])
 
