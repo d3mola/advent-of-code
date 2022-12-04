@@ -28,12 +28,8 @@ function part1() {
             }
         }
     }
-    
-    let alphabets = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    let result = duplicates
-        .map(item => alphabets.indexOf(item) + 1)
-        .reduce((prev, curr) => prev + curr, 0)
-    
+
+    let result = sumPriorities(duplicates)
     console.log(result)
     console.assert(result === 8233, 'result should be 8233')
 }
