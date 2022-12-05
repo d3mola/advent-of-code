@@ -24,4 +24,19 @@ function part1() {
 }
 
 function part2() {
+    let result = input
+        .split('\n')
+        .map(line => line.split(','))
+        .map(([pair1, pair2]) => [
+            [Number(pair1.split('-')[0]), Number(pair1.split('-')[1])],
+            [Number(pair2.split('-')[0]), Number(pair2.split('-')[1])]
+        ])
+        .filter(([[a, b], [c, d]]) => isBetween(c,d,a) || isBetween(c,d,b) || isBetween(a,b,c) || isBetween(a,b,d))
+        .length
+    console.log(result)
+    assert.equal(result, 794, `expected 794 got ${result}`)
+}
+
+function isBetween (num1: number, num2: number, value: number): boolean {
+    return value >= num1 && value <= num2 
 }
