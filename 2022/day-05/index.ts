@@ -8,8 +8,9 @@ part1()
 part2()
 
 function part1() {
-    let [labels, crates, moves] = parseInput()
-    let stacks = createStacks(labels, crates)
+    let input = getInput()
+    let moves = getMoves(input)
+    let stacks = getStacks(input)
 
     for (let move of moves) {
         let {amount,from,to} = parseMove(move)
@@ -26,8 +27,9 @@ function part1() {
 }
 
 function part2() {
-    let [labels, crates, moves] = parseInput()
-    let stacks = createStacks(labels, crates)
+    let input = getInput()
+    let moves = getMoves(input)
+    let stacks = getStacks(input)
 
     for (let move of moves) {
         let {amount,from,to} = parseMove(move)
@@ -47,42 +49,25 @@ function parseMove(move: string): {amount: number, from: number, to: number} {
     return {amount, from, to}
 }
 
-function getEveryNth(arr: string[], nth: number, startIndex: number) {
-    const result: string[] = [];
-    let _arr = arr.slice(startIndex)
-    for (let i = 0; i < _arr.length; i += nth) {
-        result.push(_arr[i]);
-    }
-    return result;
+function getInput(): string[] {
+    return fs
+        .readFileSync(path.join(__dirname, "input.txt"), "utf-8")
+        .split('\n\n')
 }
 
-function createStacks(labels: string[], crates: string[]): string[][] {
-    let stacks: string[][] = []
-    let startIndex = 0
-    for (let label = 1; label <= labels.length; label++) {
-        stacks[label-1] = getEveryNth(crates, labels.length, startIndex)
-        startIndex++
-    }
-    stacks = stacks.map(stack => stack.reverse().filter(Boolean)) // remove empty crates
-    return stacks
+function getMoves(input: string[]): string[] {
+    return input[1].split('\n')
 }
 
-function parseInput(): [string[], string[], string[]] {
-    const input = fs
-    .readFileSync(path.join(__dirname, "input.txt"), "utf-8")
-    .split('\n\n')
-
-    let moves = input[1].split('\n')
+function getStacks(input: string[]): string[][] {
     let body = input[0].split('\n')
-    let labels = body[body.length-1].trim().split('   ')
-    let crates = body
-        .slice(0, body.length-1)
+    let rows = body.slice(0, body.length-1).slice(0, body.length-1)
         .map(line => line.replace(/\s\s\s\s/g, ','))
         .map(line => line.replace(/\s/g, ','))
         .map(line => line.split(','))
-        .flat()
-
-    return [labels, crates, moves]
+    let stacks = transpose2dMatrix<string>(rows)
+        .map(stack => stack.reverse().filter(Boolean))
+    return stacks
 }
 
 function topCrates(stacks: string[][]): string {
@@ -91,4 +76,8 @@ function topCrates(stacks: string[][]): string {
         result += stack[stack.length-1][1]
     })
     return result
+}
+
+function transpose2dMatrix<T>(matrix: T[][]): T[][] {
+    return matrix[0].map((col, i) => matrix.map(row => row[i]));
 }
