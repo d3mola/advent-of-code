@@ -20,4 +20,14 @@ function part1() {
 }
 
 function part2() {
+    let input = fs.readFileSync(path.join(__dirname, 'input.txt'), 'utf8').split('')
+    let result = 0
+    for (let i=0; i<input.length; i++) {
+        let sequenceof14 = input.slice(i, i+14)
+        if (new Set(sequenceof14).size === sequenceof14.length) { // no duplicate in sequence
+            result = i + 14
+            break
+        }
+    }
+    assert.equal(result, 2263)
 }
