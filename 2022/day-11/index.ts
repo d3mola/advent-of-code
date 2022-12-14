@@ -1,9 +1,10 @@
+import assert from 'assert'
 import fs from 'fs'
 import path from 'path'
 
 console.log('Day 11: Monkey in the Middle')
 
-let input = fs.readFileSync(path.join(__dirname, 'input.txt'), 'utf-8')
+let input = fs.readFileSync(path.join(__dirname, 'smol.txt'), 'utf-8')
 
 part1()
 
@@ -42,6 +43,7 @@ function part1() {
     let allInspectionsSorted = allInspections.sort((a, b)=> b - a)
     let result = allInspectionsSorted[0] * allInspectionsSorted[1]
     console.log(result);
+    assert.equal(result, 10605)
 }
 
 function getNextMonkeyIndex(monkeys: Monkey[], worryLevel: number, testNumber: string, monkeyIfTrue: string, monkeyIfFalse: string): number {
@@ -51,8 +53,21 @@ function getNextMonkeyIndex(monkeys: Monkey[], worryLevel: number, testNumber: s
     return monkeys.findIndex(monkey => monkey.id === monkeyIfFalse)
 }
 
-function newWorryLevel(oldWorryLevel: number, operation): number {
-    let newWorry = eval(operation.replace(/old/g, String(oldWorryLevel))) as number
+function newWorryLevel(oldWorryLevel: number, operation: string): number {
+    let newWorry: number
+    let [_, operator, operand] = operation.split(' ')
+    if (operand === 'old') {
+        operand = String(oldWorryLevel)
+    }
+
+    if (operator === '*') {
+        newWorry = oldWorryLevel * Number(operand)
+    } else if (operator === '+') {
+        newWorry = oldWorryLevel + Number(operand)
+    } else {
+        throw new Error('invalid operation')
+    }
+
     newWorry = Math.floor(newWorry / 3)
     return newWorry
 }
@@ -62,24 +77,23 @@ function monkeyId(name: string): string {
 }
 
 function monkeyItems(items: string): number[] {
-    return items.trim().split('Starting items: ')[1].split(', ').map(Number)
+    return items.split('Starting items: ')[1].split(', ').map(Number)
 }
 
 function monkeyOperation(operation: string): string {
-    return operation.trim().split('= ')[1]
+    return operation.split('= ')[1]
 }
 
 function monkeyTest(test: string): string {
-    return test.trim().split('divisible by ')[1]
+    return test.split('divisible by ')[1]
 }
 
 function monkeyIfTrue(trueStatement: string): string {
-    
-    return capitalize(trueStatement.trim().split('If true: throw to ')[1])
+    return capitalize(trueStatement.split('If true: throw to ')[1])
 }
 
 function monkeyIfFalse(falseStatement: string): string {
-    return capitalize(falseStatement.trim().split('If false: throw to ')[1])
+    return capitalize(falseStatement.split('If false: throw to ')[1])
 }
 
 function capitalize(str: string): string {
